@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: all-connector-mcp
+  profiles:
+    default: local
+  ai:
+    mcp:
+      server:
+        enabled: true
+        name: all-connector-mcp
+        version: 0.0.1
+        type: SYNC
+        protocol: STREAMABLE
+        expose-mcp-client-tools: false
+      client:
+        enabled: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+all:
+  connectors:
+    github:
+      enabled: ${GITHUB_MCP_ENABLED:false}
+      url: ${GITHUB_API_URL:https://api.github.com}
+      api-key: ${GITHUB_API_KEY:}
+      allowed-hosts: ${GITHUB_ALLOWED_HOSTS:api.github.com}
