@@ -16,14 +16,14 @@ import org.springframework.web.client.RestClient;
 public class GitHubConnectorConfiguration {
 
     @Bean
-    GitHubMcpTools gitHubMcpTools(RestClient.Builder builder, GitHubConnectorProperties properties) {
+    GitHubMcpTools gitHubMcpTools(GitHubConnectorProperties properties) {
         HttpClient httpClient = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofSeconds(5))
                 .followRedirects(HttpClient.Redirect.NEVER)
                 .build();
         JdkClientHttpRequestFactory requestFactory = new JdkClientHttpRequestFactory(httpClient);
         requestFactory.setReadTimeout(Duration.ofSeconds(10));
-        RestClient client = builder
+        RestClient client = RestClient.builder()
                 .requestFactory(requestFactory)
                 .baseUrl(properties.url().toString())
                 .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + properties.apiKey())
